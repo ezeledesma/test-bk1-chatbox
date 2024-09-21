@@ -1,0 +1,25 @@
+{
+  "name": "bk1-clase11",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "engines": {
+	"node": "15.x"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "express-handlebars": "^8.0.1",
+    "socket.io": "^4.8.0"
+  }
+}
