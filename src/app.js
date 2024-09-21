@@ -6,7 +6,7 @@ import express from "express";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 const app = express();
-const PUERTO = 8080;
+const PUERTO = 3000;
 
 // Middleware
 app.use(express.json());
