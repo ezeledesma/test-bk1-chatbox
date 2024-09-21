@@ -40,7 +40,11 @@ io.on("connection", (socket) => {
 	console.log("Nuevo usuario conectado");
 
 	socket.on("message", data => {
-		messages.push(data);
+		if(data.message == "__chatreset__") {
+			messages = [];
+		} else {
+			messages.push(data);
+		}
 
 		// Aca envio el array actualizado:
 		io.emit("messagesLogs", messages);
