@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "src/app.js"
     }
-  ],
-  "engines": {
-    "node": "20.x"
-  }
+  ]
 }
