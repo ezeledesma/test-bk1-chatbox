@@ -21,6 +21,7 @@ Swal.fire({
 	allowOutsideClick: false
 }).then(result => {
 	user = result.value;
+	socket.emit("logIn","");
 });
 
 

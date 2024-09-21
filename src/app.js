@@ -49,4 +49,9 @@ io.on("connection", (socket) => {
 		// Aca envio el array actualizado:
 		io.emit("messagesLogs", messages);
 	})
+
+	socket.on("logIn", data => {
+		// Si se logueo un usuario, le envio el chat para que lo cargue
+		io.emit("messagesLogs", messages);
+	})
 })
