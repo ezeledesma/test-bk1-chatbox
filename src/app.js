@@ -36,10 +36,10 @@ const io = new Server(httpServer);
 
 let messages = [];
 
-io.on("connection", () => {
+io.on("connection", (socket) => {
 	console.log("Nuevo usuario conectado");
 
-	io.on("message", data => {
+	socket.on("message", data => {
 		messages.push(data);
 
 		// Aca envio el array actualizado:

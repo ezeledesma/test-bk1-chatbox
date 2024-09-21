@@ -43,9 +43,8 @@ socket.on("messagesLogs", data => {
 	let messages = "";
 
 	data.forEach(message => {
-		message = messages + `${message.user} dice: ${message.message} <br>`;
+		messages = messages + `${message.user} dice: ${message.message} <br>`;
 	});
 
 	log.innerHTML = messages;
-	console.log(messages);
 })
