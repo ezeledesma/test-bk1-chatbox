@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "src/app.js",
       "use": "@vercel/node"
     }
   ],
@@ -11,5 +11,8 @@
       "src": "/(.*)",
       "dest": "src/app.js"
     }
-  ]
+  ],
+  "engines": {
+    "node": "20.x"
+  }
 }
