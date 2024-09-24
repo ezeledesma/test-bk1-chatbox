@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 // Listen
 const httpServer = app.listen(PUERTO, () => {
-	console.log(`Escuchando en el puerto ${PUERTO}`);
+	console.log(`Escuchando en el puerto http://localhost:${PUERTO}`);
 })
 
 // Generamos la instancia de Socket.io del lado del backend
@@ -35,28 +35,59 @@ const io = new Server(httpServer);
 // Vamos a crear un array para almacenar todos los usuarios con sus mensajes;
 
 let messages = [];
+let clients = [];
 
 io.on("connection", (socket) => {
 	console.log("Nuevo usuario conectado");
 
 	socket.on("message", data => {
-		if(data.message == "__chatreset__") {
-			messages = [];
-		} else {
-			messages.push({
-				user: data.user,
-				message: escapeHTML(data.message),
-				date: Date.now()
-			});
+		try {
+			let user = clients.find((c) => c?.socket === socket);
+			if(user) {
+				// Si existe el usuario
+				if(data.message == "__chatreset__") {
+					messages = [];
+				} else {
+					messages.push({
+						user: user.user,
+						message: escapeHTML(data.message),
+						date: Date.now()
+					});
+				}
+				// Aca envio el array actualizado:
+				io.emit("messagesLogs", messages); // Deberia solo enviarse a los sockets de clients logueados??
+			} else {
+				io.to(socket.id).emit("messagesLogs", [{user:"Server", message:"Por favor, logueese correctamente", date: Date.now()}]);
+			}
 		}
-
-		// Aca envio el array actualizado:
-		io.emit("messagesLogs", messages);
+		catch (e) {
+			console.log("error message", e);
+		}
 	})
 
 	socket.on("logIn", data => {
-		// Si se logueo un usuario, le envio el chat para que lo cargue
-		io.emit("messagesLogs", messages);
+		try {
+			clients.push({
+				socket: socket,
+				user: escapeHTML(data.user)
+			});
+			// Si se logueo un usuario, le envio el chat para que lo cargue
+			io.to(socket.id).emit("messagesLogs", messages); // Podria enviar a todos aviso que entro al chat
+		}
+		catch (e) {
+			console.log("error logIn", e);
+		}
+	})
+
+	socket.on("disconnect", (data) => {
+		console.log("Usuario desconectado"); // Podria enviar a todos aviso que salio del chat
+		try {
+			let disconnected = clients.find((c) => c.socket === socket);
+			if(disconnected) clients.splice(clients.indexOf(disconnected),1);
+		}
+		catch (e) {
+			console.log("error disconnect", e);
+		}
 	})
 })
 

@@ -21,7 +21,7 @@ Swal.fire({
 	allowOutsideClick: false
 }).then(result => {
 	user = result.value;
-	socket.emit("logIn","");
+	socket.emit("logIn",{user:result.value});
 });
 
 function sendMessage() {
@@ -29,9 +29,9 @@ function sendMessage() {
 	if(chatBox.value.trim().length > 0) {
 		// Si el mensaje, despues de quitar espacios, tiene mas de 0 caracteres
 		// lo enviamos al servidor
-		socket.emit("message",{user: user, message: chatBox.value});
+		socket.emit("message",{message: chatBox.value});
 		chatBox.value = "";
-	}	
+	}
 }
 
 chatBox.addEventListener("keydown", (event) => {
@@ -51,10 +51,10 @@ socket.on("messagesLogs", data => {
 	let messages = "";
 	data.forEach(message => {
 		messages = messages + `		
-	<div class="${message.user==user?"message sender":"message recipient"}">
+	<div class="message ${message.user==user?"sender":"recipient"}">
 		<span class="username">${message.user}:</span>
 		<span class="text">${message.message}</span>
-		<div class="timestamp">${(new Date(message.date)).getHours()}:${(new Date(message.date)).getMinutes()}</div>
+		<div class="timestamp">${String((new Date(message.date)).getHours()).padStart(2,'0')}:${String((new Date(message.date)).getMinutes()).padStart(2,'0')}</div>
 	</div>
 		`;
 	});
