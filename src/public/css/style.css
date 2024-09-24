@@ -1,0 +1,140 @@
+h1 {
+	display: block;
+	font-family: monospace;
+	white-space: nowrap;
+	border-right: 4px solid;
+	width: 34ch;
+	animation: typing 2s steps(34), blink 0.5s infinite step-end alternate;
+	overflow: hidden;
+}
+
+@keyframes typing {
+	from { width:0 }
+}
+
+@keyframes blink {
+	50% { border-color: transparent }
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+      }
+      
+      /* Track */
+      ::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+      }
+       
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+	background: #888; 
+      }
+      
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+	background: #555; 
+      }
+
+/** GPT ***/
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #e5ddd5;
+      }
+      
+      .chat-container {
+	width: 60%;
+	height: 500px; /* Tamaño fijo del contenedor */
+	margin: 0 auto;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	overflow-y: auto; /* Permitir desplazamiento vertical */
+      }
+      
+      .message {
+	padding: 10px;
+	margin-bottom: 10px;
+	position: relative;
+	max-width: 70%;
+      }
+      
+      .sender {
+	background-color: #dcf8c6; /* Color de fondo para el remitente */
+	margin-left: auto; /* Alineación a la derecha */
+	text-align: left;
+	border-radius: 8px 0px 8px 8px;
+      }
+      
+      .recipient {
+	background-color: #f7f5f5; /* Color de fondo para el destinatario */
+	margin-right: auto; /* Alineación a la izquierda */
+	text-align: left;
+	border-radius: 0px 8px 8px 8px;
+      }
+      
+      .username {
+	font-weight: bold;
+	color: #075e54;
+      }
+      
+      .text {
+	word-wrap: break-word;
+	margin-top: 5px;
+      }
+      
+      .timestamp {
+	font-size: 0.75em;
+	color: gray;
+	text-align: right;
+	margin-top: 5px;
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+      }
+      
+      /* Estilos para el desplazamiento */
+      .chat-container::-webkit-scrollbar {
+	width: 8px;
+      }
+      
+      .chat-container::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+      }
+      
+      .input-container {
+	width: 60%;
+	margin: 20px auto;
+	display: flex;
+	align-items: center;
+      }
+      
+      #message-input {
+	width: 80%;
+	height: 50px;
+	padding: 10px;
+	border-radius: 20px;
+	border: 1px solid #ccc;
+	outline: none;
+	resize: none;
+	font-size: 16px;
+      }
+      
+      #send-button {
+	width: 18%;
+	height: 50px;
+	margin-left: 10px;
+	background-color: #075e54;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 16px;
+      }
+      
+      #send-button:hover {
+	background-color: #128c7e;
+      }

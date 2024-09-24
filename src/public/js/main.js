@@ -4,7 +4,7 @@ const socket = io();
 
 // Creamos una variable para guardar el usuario
 let user;
-const chatBox = document.getElementById("chatBox");
+const chatBox = document.getElementById("message-input");
 
 //  Utilizamos  Sweet Alert para el mensaje de bienvenida
 
@@ -14,9 +14,9 @@ const chatBox = document.getElementById("chatBox");
 Swal.fire({
 	title: "Identificate",
 	input: "text",
-	text: "Ingresa un usuario para identificarte en el chat",
+	text: "Ingresa un nombre de usuario para poder utilizar el chat",
 	inputValidator: (value) => {
-		return !value && "Necesitas escribir un nombre para continuar"
+		return !value && "Necesitas escribir un nombre para continuar!"
 	},
 	allowOutsideClick: false
 }).then(result => {
@@ -24,15 +24,22 @@ Swal.fire({
 	socket.emit("logIn","");
 });
 
+function sendMessage() {
+	// Solo cuando se presiona enter envio el mensaje
+	if(chatBox.value.trim().length > 0) {
+		// Si el mensaje, despues de quitar espacios, tiene mas de 0 caracteres
+		// lo enviamos al servidor
+		socket.emit("message",{user: user, message: chatBox.value});
+		chatBox.value = "";
+	}	
+}
 
-chatBox.addEventListener("keyup", (event) => {
+chatBox.addEventListener("keydown", (event) => {
 	if(event.key === "Enter") {
-		// Solo cuando se presiona enter envio el mensaje
-		if(chatBox.value.trim().length > 0) {
-			// Si el mensaje, despues de quitar espacios, tiene mas de 0 caracteres
-			// lo enviamos al servidor
-			socket.emit("message",{user: user, message: chatBox.value});
-			chatBox.value = "";
+		// Prevenir el comportamiento por defecto (no agregar nueva línea) si no se presiona Shift
+		if (!event.shiftKey) {
+			event.preventDefault();  // Evitar el salto de línea en el textarea
+			sendMessage();           // Ejecutar la función para enviar el mensaje
 		}
 	}
 })
@@ -40,12 +47,17 @@ chatBox.addEventListener("keyup", (event) => {
 // Listener de Mensajes:
 
 socket.on("messagesLogs", data => {
-	const log = document.getElementById("messagesLogs");
+	const log = document.getElementById("chat-container");
 	let messages = "";
-
 	data.forEach(message => {
-		messages = messages + `${message.user} dice: ${message.message} <br>`;
+		messages = messages + `		
+	<div class="${message.user==user?"message sender":"message recipient"}">
+		<span class="username">${message.user}:</span>
+		<span class="text">${message.message}</span>
+		<div class="timestamp">${(new Date(message.date)).getHours()}:${(new Date(message.date)).getMinutes()}</div>
+	</div>
+		`;
 	});
-
 	log.innerHTML = messages;
+	log.scrollTop = log.scrollHeight;
 })

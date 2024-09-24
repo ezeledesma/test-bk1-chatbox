@@ -43,7 +43,11 @@ io.on("connection", (socket) => {
 		if(data.message == "__chatreset__") {
 			messages = [];
 		} else {
-			messages.push(data);
+			messages.push({
+				user: data.user,
+				message: escapeHTML(data.message),
+				date: Date.now()
+			});
 		}
 
 		// Aca envio el array actualizado:
@@ -55,3 +59,16 @@ io.on("connection", (socket) => {
 		io.emit("messagesLogs", messages);
 	})
 })
+
+// Función para escapar el contenido del mensaje
+
+function escapeHTML(input) {
+	return input
+	.replace(/&/g, "&amp;")
+	.replace(/</g, "&lt;")
+	.replace(/>/g, "&gt;")
+	.replace(/"/g, "&quot;")
+	.replace(/'/g, "&#039;")
+	.replace(/\//g, "&#x2F;")
+	.replace(/`/g, "&#x60;");
+}
