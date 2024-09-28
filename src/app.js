@@ -91,7 +91,7 @@ io.on("connection", (socket) => {
 	})
 })
 
-// Función para escapar el contenido del mensaje
+// Función para escapar el contenido del mensaje.
 
 function escapeHTML(input) {
 	return input
